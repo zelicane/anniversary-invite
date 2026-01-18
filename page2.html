@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Anniversary Invite</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* {margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif;}
+body {
+  height:100vh;
+  background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url("https://wallpaperbat.com/img/70777792-demon-slayer-desktop-wallpaper.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: background 0.5s ease-in-out;
+}
+.card {
+  background: rgba(0,0,0,0.65);
+  padding: 40px 50px;
+  border-radius: 20px;
+  width:90%;
+  max-width:500px;
+  text-align:center;
+  box-shadow:0 15px 40px rgba(0,0,0,0.6);
+  position:relative;
+}
+h1 {font-size:2rem; font-weight:700; margin-bottom:30px; line-height:1.3;}
+.buttons, .w-buttons, .final-buttons {display:flex; flex-direction:column; gap:18px; justify-content:center; align-items:center;}
+.btn {
+  padding:16px;
+  font-size:1.1rem;
+  font-weight:600;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  background-color:#e50914;
+  color:white;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  position: relative;
+}
+.btn:hover {background-color:#ff1e27; transform: scale(1.05);}
+#backBtn {
+  margin-top:25px;
+  padding:10px 20px;
+  font-size:0.9rem;
+  font-weight:600;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  background-color:#555;
+  color:white;
+  display:none;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+#backBtn:hover {background-color:#777; transform: scale(1.05);}
+#noText {margin-top:20px; font-size:1.1rem; display:none;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1 id="title">Are you free on<br>February 6, 2026?</h1>
+
+  <!-- YES / NO buttons -->
+  <div class="buttons" id="yesNoButtons">
+    <button class="btn" onclick="showWButtons()">Yes</button>
+    <button class="btn" id="noBtn">No</button>
+  </div>
+
+  <!-- W buttons (WHAT / WHERE / WHEN) -->
+  <div class="w-buttons" id="wButtons" style="display:none;">
+    <button class="btn" onclick="showInfo('WHAT')">WHAT</button>
+    <button class="btn" onclick="showInfo('WHERE')">WHERE</button>
+    <button class="btn" onclick="showInfo('WHEN')">WHEN</button>
+  </div>
+
+  <!-- Back button -->
+  <button id="backBtn" onclick="goBack()">Back</button>
+
+  <!-- No text -->
+  <div id="noText">Ayoko nga! Sama ka pa rin.</div>
+
+  <!-- Final Yes / Bawal mag-No page -->
+  <div class="final-buttons" id="finalButtons" style="display:none;">
+    <button class="btn" onclick="showFinalMessage()">Yes</button>
+    <button class="btn" onclick="showFinalMessage()">Bawal mag-No</button>
+  </div>
+</div>
+
+<script>
+const body = document.body;
+const title = document.getElementById('title');
+const yesNoButtons = document.getElementById('yesNoButtons');
+const wButtons = document.getElementById('wButtons');
+const backBtn = document.getElementById('backBtn');
+const noText = document.getElementById('noText');
+const noBtn = document.getElementById('noBtn');
+const finalButtons = document.getElementById('finalButtons');
+
+const originalTitle = "Are you free on<br>February 6, 2026?";
+const originalBackground = "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://wallpaperbat.com/img/70777792-demon-slayer-desktop-wallpaper.jpg')";
+
+let currentState = 'yesNo'; // 'yesNo', 'wButtons', 'info', 'finalPage'
+let lastInfo = ''; // 'WHAT', 'WHERE', 'WHEN'
+
+// YES CLICKED → SHOW W BUTTONS
+function showWButtons(){
+  yesNoButtons.style.display='none';
+  wButtons.style.display='flex';
+  currentState='wButtons';
+}
+
+// SHOW INFO FOR WHAT / WHERE / WHEN
+function showInfo(type){
+  wButtons.style.display='none';
+  backBtn.style.display='inline-block';
+  currentState='info';
+  lastInfo = type; // track last info
+
+  if(type==='WHAT'){
+    title.innerHTML="Celebration of Our Four Beautiful Years";
+    body.style.backgroundImage="linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://wallpapers.com/images/hd/demon-slayer-background-vnekm8wj134rqvqe.jpg')";
+  }
+  else if(type==='WHERE'){
+    title.innerHTML="SMDC Wind Residences, Tower 4 - 22nd Floor";
+    body.style.backgroundImage="linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://wallpaperaccess.com/full/6292986.jpg')";
+  }
+  else if(type==='WHEN'){
+    title.innerHTML="February 6-7, 2026, Friday-Saturday, 2pm";
+    body.style.backgroundImage="linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://4kwallpapers.com/images/walls/thumbs_2t/16938.jpg')";
+  }
+}
+
+// BACK BUTTON
+function goBack(){
+  if(currentState==='info'){
+    if(lastInfo==='WHEN'){
+      // Go to final Yes/Bawal mag-No page
+      title.innerHTML = "Ano, g ka ba?";
+      body.style.backgroundImage = "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://wallpapers.com/images/hd/nezuko-demon-form-artwork-mygbpt43ivmddzwl.jpg')";
+      backBtn.style.display='none';
+      finalButtons.style.display='flex';
+      currentState='finalPage';
+    } else {
+      // Go back to W buttons
+      wButtons.style.display='flex';
+      backBtn.style.display='none';
+      currentState='wButtons';
+      title.innerHTML = originalTitle;
+      body.style.backgroundImage = originalBackground;
+    }
+  } else if(currentState==='wButtons'){
+    // Go back to initial Yes/No
+    wButtons.style.display='none';
+    yesNoButtons.style.display='flex';
+    backBtn.style.display='none';
+    currentState='yesNo';
+    title.innerHTML = originalTitle;
+    body.style.backgroundImage = originalBackground;
+  }
+}
+
+// FINAL BUTTON CLICK → SHOW FINAL MESSAGE
+function showFinalMessage(){
+  finalButtons.style.display='none';
+  title.innerHTML="Yayyyy! See u, my cheesecake!!";
+  body.style.backgroundImage="linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://images4.alphacoders.com/131/1314559.png')";
+}
+
+// NO BUTTON DODGE
+noBtn.addEventListener('mouseover',()=>{
+  const cardRect = document.querySelector('.card').getBoundingClientRect();
+  const maxX = cardRect.width - noBtn.offsetWidth;
+  const maxY = cardRect.height - noBtn.offsetHeight;
+  const randomX = Math.floor(Math.random() * maxX);
+  const randomY = Math.floor(Math.random() * maxY);
+  noBtn.style.position='absolute';
+  noBtn.style.left=randomX+'px';
+  noBtn.style.top=randomY+'px';
+});
+
+noBtn.addEventListener('click',()=>{noText.style.display='block';});
+</script>
+
+</body>
+</html>
